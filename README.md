@@ -80,6 +80,7 @@ docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 | tee reports/fu
 | `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN` | для стенду через OpenRouter: `https://openrouter.ai/api` і той самий ключ |
 | `JUDGE_MODEL` | суддя, за замовчуванням `claude-haiku-4-5` або `gpt-4.1-mini` |
 | `EVAL_STAND_URL` | адреса стенду зсередини контейнера, див. нижче |
+| `STAND_PORT`, `STAND_PROFILE` | окремий стенд: порт на `127.0.0.1` (за замовчуванням `8010`) і стартовий профіль (`lesson-02`) |
 | `AGENT_PRICE_IN`, `AGENT_PRICE_OUT` | ціна агента, USD за 1M токенів, для рядка вартості |
 
 ## Адреса стенду
@@ -89,12 +90,31 @@ docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 | tee reports/fu
 Стенд на іншому порту — задай `EVAL_STAND_URL` у `.env`, наприклад
 `http://host.docker.internal:8010`.
 
-Linux, стенд опублікований лише на `127.0.0.1` (наприклад,
-`docker run -p 127.0.0.1:8010:8000 …`): `host.docker.internal` туди не
-дістане. Бери сервіс `eval-host`, він працює в мережі хоста:
+Linux, стенд опублікований лише на `127.0.0.1`: `host.docker.internal`
+туди не дістане. Бери сервіс `eval-host`, він працює в мережі хоста:
 
 ```bash
 EVAL_STAND_URL=http://127.0.0.1:8010 docker compose run --rm eval-host --runs 3 --baseline-runs 2
+```
+
+## Окремий стенд
+
+Якщо `localhost:8000` зайнятий спільним стендом (як на devhub), не чіпай
+його: `make up` перестворить спільний контейнер. Підніми окремий стенд із
+цього ж `docker-compose.yml`. Сервіс `stand` збирається з каталогу
+`STAND_DIR`, бере його `.env` і слухає лише `127.0.0.1:8010`:
+
+```bash
+docker compose up -d --build stand   # профіль lesson-02
+curl -s http://127.0.0.1:8010/health
+```
+
+У `.env` цього репозиторію додай `EVAL_STAND_URL=http://stand:8000`:
+сервіс `eval` дістає стенд за іменем, бо обидва в одному compose. Команди
+запуску ті самі, з `eval`. Після прогону прибери стенд:
+
+```bash
+docker compose --profile stand down
 ```
 
 ## Корисні прапорці
