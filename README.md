@@ -78,7 +78,7 @@ docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 | tee reports/fu
 
 | Змінна | Що це |
 |---|---|
-| `STAND_DIR` | шлях до каталогу `paypilot-stand`, за замовчуванням `../paypilot-stand`. Windows: `C:/paypilot-stand` |
+| `STAND_DIR` | шлях до каталогу `paypilot-stand`, за замовчуванням `../paypilot-stand`. Windows: `C:/paypilot/paypilot-stand` |
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | ключ судді, той самий, що в `.env` стенду; якщо задано обидва, береться Anthropic |
 | `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN` | для стенду через OpenRouter: `https://openrouter.ai/api` і той самий ключ |
 | `JUDGE_MODEL` | суддя, за замовчуванням `claude-haiku-4-5` або `gpt-4.1-mini` |
