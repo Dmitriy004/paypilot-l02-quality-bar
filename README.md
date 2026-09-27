@@ -10,7 +10,7 @@ Python локально не потрібен: скрипт запускаєть
 
 ## Що зробити, коротко
 
-1. Підняти локальний стенд: у каталозі `paypilot-stand` — `make up && make doctor`.
+1. Підняти локальний стенд: у каталозі `paypilot-stand` — `docker compose up -d --build`, потім `docker compose exec stand python scripts/doctor.py`.
 2. Склонувати цей репозиторій поруч зі стендом:
    `git clone https://github.com/sergeytkachenko/paypilot-l02-eval.git`
 3. `cd paypilot-l02-eval`, `cp .env.example .env`, вписати в `.env` шлях до
@@ -35,7 +35,7 @@ Python локально не потрібен: скрипт запускаєть
 ## Що потрібно
 
 - Docker Desktop (macOS, Windows) або Docker Engine з compose (Linux).
-- Піднятий **локальний** стенд `paypilot-stand` (`make up && make doctor`)
+- Піднятий **локальний** стенд `paypilot-stand` (`docker compose up -d --build`, перевірка — `docker compose exec stand python scripts/doctor.py`)
   на `http://localhost:8000`. Скрипт перемикає профілі, скидає базу й ставить
   годинник, тому на спільному стенді його не запускай.
 - Каталог стенду на цьому ж комп'ютері: скрипт імпортує з нього рушії
@@ -100,7 +100,7 @@ EVAL_STAND_URL=http://127.0.0.1:8010 docker compose run --rm eval-host --runs 3 
 ## Окремий стенд
 
 Якщо `localhost:8000` зайнятий спільним стендом (як на devhub), не чіпай
-його: `make up` перестворить спільний контейнер. Підніми окремий стенд із
+його: `docker compose up` у `paypilot-stand` перестворить спільний контейнер. Підніми окремий стенд із
 цього ж `docker-compose.yml`. Сервіс `stand` збирається з каталогу
 `STAND_DIR`, бере його `.env` і слухає лише `127.0.0.1:8010`:
 
