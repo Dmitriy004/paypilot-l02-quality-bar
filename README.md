@@ -10,11 +10,14 @@ Python локально не потрібен: скрипт запускаєть
 
 ## Що зробити, коротко
 
-1. Підняти локальний стенд: у каталозі `paypilot-stand` — `docker compose up -d --build`, потім `docker compose exec stand python scripts/doctor.py`.
+Корінь завжди `~/l02`: стенд у `~/l02/paypilot-stand`, цей репозиторій у
+`~/l02/paypilot-l02-eval`.
+
+1. Підняти локальний стенд: у `~/l02/paypilot-stand` — `docker compose up -d --build`, потім `docker compose exec stand python scripts/doctor.py`.
 2. Склонувати цей репозиторій поруч зі стендом:
-   `git clone https://github.com/sergeytkachenko/paypilot-l02-eval.git`
-3. `cd paypilot-l02-eval`, `cp .env.example .env`, вписати в `.env` шлях до
-   стенду і ключ судді.
+   `git clone https://github.com/sergeytkachenko/paypilot-l02-eval.git ~/l02/paypilot-l02-eval`
+3. `cd ~/l02/paypilot-l02-eval`, `cp .env.example .env`, вписати в `.env`
+   ключ судді (`STAND_DIR` за замовчуванням уже `../paypilot-stand`).
 4. `docker compose build` — один раз.
 5. `docker compose run --rm eval --runs 3 --baseline-runs 2 --dry-run`, потім
    те саме без `--dry-run`.
@@ -35,19 +38,19 @@ Python локально не потрібен: скрипт запускаєть
 ## Що потрібно
 
 - Docker Desktop (macOS, Windows) або Docker Engine з compose (Linux).
-- Піднятий **локальний** стенд `paypilot-stand` (`docker compose up -d --build`, перевірка — `docker compose exec stand python scripts/doctor.py`)
+- Піднятий **локальний** стенд `~/l02/paypilot-stand` (`docker compose up -d --build`, перевірка — `docker compose exec stand python scripts/doctor.py`)
   на `http://localhost:8000`. Скрипт перемикає профілі, скидає базу й ставить
   годинник, тому на спільному стенді його не запускай.
 - Каталог стенду на цьому ж комп'ютері: скрипт імпортує з нього рушії
-  (`app/engines`). Найпростіше клонувати цей репозиторій у той самий
-  каталог, де лежить `paypilot-stand`: тоді `STAND_DIR` за замовчуванням
-  (`../paypilot-stand`) уже правильний.
+  (`app/engines`). Клонуй цей репозиторій у `~/l02`, поруч зі стендом:
+  тоді `STAND_DIR` за замовчуванням (`../paypilot-stand`) уже правильний.
 
 ## Запуск
 
 ```bash
-git clone https://github.com/sergeytkachenko/paypilot-l02-eval.git
-cd paypilot-l02-eval
+mkdir -p ~/l02
+git clone https://github.com/sergeytkachenko/paypilot-l02-eval.git ~/l02/paypilot-l02-eval
+cd ~/l02/paypilot-l02-eval
 cp .env.example .env        # впиши STAND_DIR і ключ судді
 docker compose build        # один раз, близько хвилини
 
