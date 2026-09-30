@@ -35,6 +35,8 @@ Python локально не потрібен: скрипт запускаєть
 | `requirements.txt` | залежності, ставляться в образ |
 | `Dockerfile`, `docker-compose.yml` | образ і запуск |
 | `.env.example` | шаблон `.env`: шлях до стенду і ключ судді |
+| `quality-bar-proposal.md` | Quality Bar Proposal для ДЗ №1, заповнений власними даними прогону |
+| `reports/*.json` | сирі дані прогонів, на яких побудовано пропозицію |
 
 ## Що потрібно
 
@@ -74,6 +76,32 @@ docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 | tee reports/fu
 `l02_eval.py` і `cases.json` підмонтовані в контейнер, тож правки в них
 діють одразу, без перезбирання. `docker compose build` потрібен лише після
 зміни `requirements.txt` або `Dockerfile`.
+
+## Відтворення прогону для ДЗ №1
+
+Числа в `quality-bar-proposal.md` отримані 2026-09-30 на такій конфігурації:
+
+- профілі: `clean ×2`, `lesson-02 ×3`;
+- суддя: OpenAI `gpt-4.1-mini`;
+- фіксований час: `CLOCK_OVERRIDE=2026-09-15T10:00:00Z` (скрипт встановлює його сам);
+- сирий звіт: `reports/l02-clean-lesson-02-20260930-195712.json`.
+
+Команда відтворення:
+
+```powershell
+docker compose run --rm -T eval --runs 3 --baseline-runs 2
+```
+
+Щоб у Windows PowerShell одночасно бачити вивід і зберегти `full-run.txt`
+без пошкодження українських символів, перед запуском увімкни UTF-8:
+
+```powershell
+chcp 65001 > $null
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
+docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 |
+    Tee-Object reports/full-run.txt
+```
 
 ## `.env`
 

@@ -1,4 +1,6 @@
 .env
-reports/
+reports/*
+!reports/*.json
 .deepeval/
 __pycache__/
+.venv/
