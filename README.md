@@ -82,6 +82,8 @@ docker compose run --rm -T eval --runs 3 --baseline-runs 2 2>&1 | tee reports/fu
 Числа в `quality-bar-proposal.md` отримані 2026-09-30 на такій конфігурації:
 
 - профілі: `clean ×2`, `lesson-02 ×3`;
+- агент стенду: OpenAI `gpt-5-mini` (`LLM_PROVIDER=openai`, порожній
+  `LLM_MODEL`, тому використано стандартну модель OpenAI-провайдера стенду);
 - суддя: OpenAI `gpt-4.1-mini`;
 - фіксований час: `CLOCK_OVERRIDE=2026-09-15T10:00:00Z` (скрипт встановлює його сам);
 - сирий звіт: `reports/l02-clean-lesson-02-20260930-195712.json`.
